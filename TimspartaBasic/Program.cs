@@ -64,10 +64,18 @@ namespace TimspartaBasic
             //Console.WriteLine($"나누기 : {(float)num1 / num2}");
 
             //3. 온도 변환기 만들기 
-            Console.Write("섭씨 온도를 입력하세요: "); 
-            int celsius = int.Parse(Console.ReadLine());
-            int fahrenheit = (celsius * 9/5) + 32;
-            Console.WriteLine($"변환된 화씨 온도: {fahrenheit}"); 
+            //Console.Write("섭씨 온도를 입력하세요: "); 
+            //int celsius = int.Parse(Console.ReadLine());
+            //int fahrenheit = (celsius * 9/5) + 32;
+            //Console.WriteLine($"변환된 화씨 온도: {fahrenheit}"); 
+
+            //4.BMI 계산기 만들기 
+            Console.Write("키(m)를 입력하세요 : "); 
+            float height = float.Parse(Console.ReadLine());
+            Console.Write("체중(kg)을 입력하세요 : "); 
+            float weight = float.Parse(Console.ReadLine());
+            float BMI = weight / (height * height);
+            Console.WriteLine($"BMI 지수는 : {BMI:N2}입니다.");
         }
     }
 }
