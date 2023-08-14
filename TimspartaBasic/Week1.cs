@@ -70,12 +70,12 @@ namespace TimspartaBasic
             //Console.WriteLine($"변환된 화씨 온도: {fahrenheit}"); 
 
             //4.BMI 계산기 만들기 
-            //Console.Write("키(m)를 입력하세요 : ");
-            //float height = float.Parse(Console.ReadLine());
-            //Console.Write("체중(kg)을 입력하세요 : ");
-            //float weight = float.Parse(Console.ReadLine());
-            //float BMI = weight / (height * height);
-            //Console.WriteLine($"BMI 지수는 : {BMI} 입니다.");
+            Console.Write("키(m)를 입력하세요 : ");
+            float height = float.Parse(Console.ReadLine());
+            Console.Write("체중(kg)을 입력하세요 : ");
+            float weight = float.Parse(Console.ReadLine());
+            float BMI = weight / (height * height);
+            Console.WriteLine($"BMI 지수는 : {BMI} 입니다.");
         }
     }
 }
