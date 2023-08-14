@@ -2,7 +2,7 @@
 
 namespace TimspartaBasic
 {
-    internal class Program
+    internal class Week1
     {
         static void Main(string[] args)
         {
