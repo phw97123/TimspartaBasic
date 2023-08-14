@@ -45,8 +45,12 @@ namespace TimspartaBasic
 
             //Console.WriteLine("BMI 지수는 {0:N2} 입니다", BMI);  
 
-
-
+            //1. 사용자로부터 입력 받기 
+            Console.Write("이름을 입력하세요 : ");
+            string name = Console.ReadLine();
+            Console.Write("나이를 입력하세요 : ");
+            int age = int.Parse(Console.ReadLine()); 
+            Console.WriteLine($"안녕하세요, {name}! 당신은 {age} 세 이군요."); 
         }
     }
 }
