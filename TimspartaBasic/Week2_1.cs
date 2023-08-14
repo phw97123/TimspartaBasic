@@ -12,7 +12,7 @@ using System.Transactions;
 
 namespace TimspartaBasic
 {
-    internal class Week2
+    internal class Week2_2
     {
         //static bool IsPrime(int num)
         //{
@@ -80,23 +80,23 @@ namespace TimspartaBasic
             //int[] num = new int[5];
             //int max = 0;
             //int min = 0;
-            //for (int i = 0; i<num.Length; i++)
+            //for (int i = 0; i < num.Length; i++)
             //{
             //    Console.Write("숫자를 입력하세요: ");
-            //    num[i]= int.Parse(Console.ReadLine());
-            //    min = num[0]; 
+            //    num[i] = int.Parse(Console.ReadLine());
+            //    min = num[0];
             //    if (max < num[i])
             //    {
-            //        max = num[i]; 
+            //        max = num[i];
             //    }
 
             //    if (min > num[i])
             //    {
-            //        min = num[i]; 
+            //        min = num[i];
             //    }
             //}
             //Console.WriteLine($"최대값: {max}");
-            //Console.WriteLine($"최소값: {min}"); 
+            //Console.WriteLine($"최소값: {min}");
             //2-4 소수 판별하기 
             //Console.Write("숫자를 입력하세요: "); 
             //int num = int.Parse(Console.ReadLine());

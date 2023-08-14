@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Compile Remove="Week1.cs" />
+    <Compile Remove="Week2_1.cs" />
   </ItemGroup>
 
 </Project>
