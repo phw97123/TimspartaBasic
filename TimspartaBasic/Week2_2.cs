@@ -48,7 +48,7 @@ namespace TimspartaBasic
 
 
         //2-6 틱택토
-        static void DrawBoard()
+        static void DrawBoard() // 보드판 
         {
             Console.WriteLine($"     |     |     ");
             Console.WriteLine($"  {boardNum[0]}  |  {boardNum[1]}  |  {boardNum[2]}   ");
@@ -63,7 +63,7 @@ namespace TimspartaBasic
             Console.WriteLine($"     |     |     ");
         }
 
-        static bool CheckWin(char symbol)
+        static bool CheckWin(char symbol) // 이기는 조건 
         {
             return (boardNum[0] == symbol && boardNum[1] == symbol && boardNum[2] == symbol) ||
                    (boardNum[3] == symbol && boardNum[4] == symbol && boardNum[5] == symbol) ||
@@ -75,7 +75,7 @@ namespace TimspartaBasic
                    (boardNum[2] == symbol && boardNum[4] == symbol && boardNum[6] == symbol);
         }
 
-        static bool isBoardFull()
+        static bool isBoardFull() //보드가 꽉 찼다면 
         {
             foreach (char board in boardNum)
             {
@@ -93,7 +93,7 @@ namespace TimspartaBasic
         {
             bool gameWon;
 
-            do
+            do  
             {
                 Console.Clear();
                 Console.WriteLine("플레이어 1: X 와 플레이어 2: O");
@@ -103,9 +103,9 @@ namespace TimspartaBasic
                 DrawBoard();
 
                 int choice;
-                bool bValid;
+                bool bValid; // 잘못 입력 했을 때 
 
-                do
+                do // 예외처리
                 {
                     Console.Write("입력: ");
                     bValid = int.TryParse(Console.ReadLine(), out choice);
@@ -121,9 +121,9 @@ namespace TimspartaBasic
                 char symbole = playerTurn == 1 ? 'X' : 'O';
                 boardNum[choice - 1] = symbole;
 
-                gameWon = CheckWin(symbole);
+                gameWon = CheckWin(symbole); // 이겼는지 
 
-                if (gameWon)
+                if (gameWon) // 현재 player가 이겼다면 
                 {
                     Console.Clear();
                     Console.WriteLine("플레이어 1: X 와 플레이어 2: O");
@@ -132,7 +132,7 @@ namespace TimspartaBasic
                     Console.WriteLine();
                     Console.WriteLine($"플레이어 {playerTurn}이 이겼습니다!");
                 }
-                else if (isBoardFull())
+                else if (isBoardFull()) // 보드판이 꽉 찼다면 
                 {
                     Console.Clear();
                     Console.WriteLine("플레이어 1: X 와 플레이어 2: O");
@@ -143,9 +143,9 @@ namespace TimspartaBasic
                     break;
                 }
 
-                playerTurn = playerTurn == 1 ? 2 : 1;
+                playerTurn = playerTurn == 1 ? 2 : 1; // 플레이어 변경 
             }
-            while (!gameWon);
+            while (!gameWon); // 누가 이기지 않았을 때 까지 
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();

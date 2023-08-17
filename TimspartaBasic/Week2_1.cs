@@ -14,14 +14,14 @@ namespace TimspartaBasic
 {
     internal class Week2_2
     {
-        //static bool IsPrime(int num)
+        //static bool IsPrime(int num) 
         //{
-        //    if(num<=1) return false;
-        //    if (num % 2 == 0)
+        //    if(num<=1) return false; // 1 이하는 소수가 아님 
+        //    if (num % 2 == 0) // 2를 제외한 짝수는 소수가 아님 
         //    {
         //        return num == 2? true : false;
         //    }
-        //    for(int i = 3; i<=Math.Sqrt(num); i+=2)
+        //    for(int i = 3; i<=Math.Sqrt(num); i+=2) // 홀수는 제곱근까지만 구하면 됨 그 이후의 숫자들은 이전에 나눠서 나온 숫자들이므로 중복되어 필요없음 
         //    {
         //        if (num % i == 0)
         //            return false; 
