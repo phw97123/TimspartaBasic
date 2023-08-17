@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="SnakeGame.cs" />
+    <Compile Remove="BlackjackGame.cs" />
     <Compile Remove="Week1.cs" />
     <Compile Remove="Week2_1.cs" />
     <Compile Remove="Week2_2.cs" />

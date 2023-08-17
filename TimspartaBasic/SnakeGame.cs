@@ -11,7 +11,7 @@ namespace TimspartaBasic
 {
     internal class SnakeGame
     {
-        public class Position 
+        public class Position // x,y 좌표를 표현하는 클래스
         {
             public int X { get; set; }
             public int Y { get; set; }
@@ -21,6 +21,7 @@ namespace TimspartaBasic
                 Y = y;
             }
         }
+
         public class Snake
         {
             List<Position> body;
@@ -37,9 +38,8 @@ namespace TimspartaBasic
                 direction = new Position(1, 0);
             }
 
-            public void Draw() //그리기
+            public void Draw() //처음 뱀 그리기
             {
-
                 for (int i = 0; i < body.Count; i++)
                 {
                     Console.SetCursorPosition(body[i].X, body[i].Y);
@@ -52,9 +52,9 @@ namespace TimspartaBasic
 
             public void Move() //이동
             {
-                Position newHead = new Position(body[0].X + direction.X, body[0].Y + direction.Y);
-                body.Insert(0, newHead);
-                body.RemoveAt(body.Count - 1);
+                Position newHead = new Position(body[0].X + direction.X, body[0].Y + direction.Y); // 이동할 위치 계산
+                body.Insert(0, newHead); // 위치를 머리로 넣어주기 
+                body.RemoveAt(body.Count - 1); // 꼬리 하나 줄이기
             }
 
             public void DrawTail() //꼬리추가
@@ -86,7 +86,7 @@ namespace TimspartaBasic
 
             public bool EatFood(FoodCreator food) // 음식 먹기
             {
-                foreach( var segment in body)
+                foreach(var segment in body)
                 {
                     if (segment.X == food.position.X && segment.Y == food.position.Y)
                     {
@@ -97,7 +97,7 @@ namespace TimspartaBasic
             }
         }
 
-        public class FoodCreator
+        public class FoodCreator 
         {
             public Position position { get; set; }
 
@@ -176,7 +176,7 @@ namespace TimspartaBasic
                     break;
                 }
 
-                DrawWall(width + 1, height + 1);  // 벽 그리기
+                DrawWall(width + 1, height + 1);
                 snake.Draw();
                 food.Draw();
                 Thread.Sleep(100);
