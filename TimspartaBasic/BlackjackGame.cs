@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using static TimspartaBasic.BlackjackGame;
@@ -10,8 +11,8 @@ namespace TimspartaBasic
 {
     internal class BlackjackGame
     {
-        public enum Suit { Hearts, Diamonds, Clubs, Spades} //카드 모양 
-        public enum Rank { Two = 2, Three , Four,Five,Six,Seven,Eight, Nine,Ten,Jack,Queen,King,Ace } // 카드 값
+        public enum Suit { Hearts, Diamonds, Clubs, Spades} 
+        public enum Rank { Two = 2, Three , Four,Five,Six,Seven,Eight, Nine,Ten,Jack,Queen,King,Ace } 
 
         public class Card //카드 한장에 대한 클래스
         {
@@ -28,9 +29,9 @@ namespace TimspartaBasic
             {
                 if ((int)Rank <= 10)
                     return (int)Rank;
-                else if ((int)Rank <= 13)
+                else if ((int)Rank <= 13) // K,Q,J 카드에 대한 처리 10으로 맞춤
                     return 10;
-                else
+                else //Ace 카드에 대한 처리 (일단 11로 맞춤) 
                     return 11; 
             }
 
@@ -47,7 +48,7 @@ namespace TimspartaBasic
             {
                 cards = new List<Card>();
 
-                foreach(Suit s in Enum.GetValues(typeof(Suit))) //카드리스트에 카드에 대한 정보 넣기 
+                foreach(Suit s in Enum.GetValues(typeof(Suit))) //카드리스트 안 카드에 대한 정보 넣기 
                 {
                     foreach(Rank r in Enum.GetValues(typeof(Rank)))
                     {
@@ -106,7 +107,8 @@ namespace TimspartaBasic
                     total += card.GetValue(); 
                 }
 
-                while(total>21 && aceCount > 0)
+                // 점수가 21을 초과하고 Ace 카드가 포함되어있다면 Ace 카드의 점수를 1로 설정
+                while (total>21 && aceCount > 0) 
                 {
                     total -= 10; 
                     aceCount--;
@@ -145,33 +147,26 @@ namespace TimspartaBasic
             }
         }
 
+        //========================================================================== //내가 작성한 코드
         public class Dealer : Player //딜러를 표현하는 클래스
         {
-            public bool isFirstTurn { get; set; }
+            public bool isFirstTurn { get; set; } // 딜러가 처음 카드를 받았는지 체크하는 변수
             public Dealer()
             {
                 isFirstTurn = true;
             }
-            public void DrawCard(Deck deck)
-            {
-                while (Hand.GetTotlaValue() < 17 && Hand.GetTotlaValue()<21)
-                {
-                    Card drawnCard = deck.DrawCard();
-                    Hand.AddCard(drawnCard);
-                }
-            }
-
-            public override void ShowHand()
+            
+            public override void ShowHand() 
             {
                 Console.WriteLine("===== 딜러 ====="); 
                 
-                if(isFirstTurn)
+                if(isFirstTurn)  // 딜러는 처음 카드를 받을 때 두번째로 받은 카드를 보여주지 않는다
                 {
                     Console.WriteLine(Hand.cards[0].ToString());
                     Console.WriteLine("???");
                     Console.WriteLine("점수: ??"); 
                 }
-                else
+                else // 딜러의 차례에서 카드 공개 
                 {
                     foreach(var card in Hand.cards)
                     {
@@ -197,13 +192,26 @@ namespace TimspartaBasic
                 player = new Player();
                 dealer = new Dealer();
             }
-            public void ScreenChange()
+            public void ScreenChange() // 메인화면 전환 
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter)
+                while(true)
                 {
-                    Console.Clear();
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        Console.Clear();
+                        break; 
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못된 입력입니다");
+                        Thread.Sleep(1000); 
+                        Console.SetCursorPosition(0, Console.CursorTop - 1); // 이전에 출력한 라인의 처음으로 이동
+                        Console.Write(new string(' ', Console.WindowWidth)); // 해당 라인을 공백으로 채움
+                        Console.SetCursorPosition(0, Console.CursorTop); // 커서를 지금 있는 행의 맨 앞으로 이동 ( 라인을 공백으로 채워서 커서는 맨 뒤로 가 있다) 
+                    }
                 }
+                
             }
 
             public void Run()
@@ -214,25 +222,28 @@ namespace TimspartaBasic
 
                 ScreenChange();
 
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++) // 카드를 2장씩 받는다 
                 {
                     player.DrawCardFromDeck(deck);
                     dealer.DrawCardFromDeck(deck);
                 }
 
-                while(true)
+                while(player.Hand.GetTotlaValue() <= 21)
                 {
                     Console.Clear();
+
                     Console.WriteLine("플레이어의 차례");
                     player.ShowHand();
                     dealer.ShowHand();
-
                     Console.WriteLine("Hit ? Stay ? (Push H or S)");
-                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    char playerChoice = Console.ReadKey().KeyChar;
                     
-                    if (key.Key == ConsoleKey.H && isPlayerBust == false)
+                    if ((playerChoice == 'H' || playerChoice == 'h') && !isPlayerBust )
                     {
                         player.DrawCardFromDeck(deck);
+                        Console.Clear();
+                        player.ShowHand();
+                        dealer.ShowHand();
 
                         if (player.Hand.GetTotlaValue() > 21)
                         {
@@ -240,46 +251,60 @@ namespace TimspartaBasic
                             isPlayerBust = true;
                         }
                     }
-                    else 
+                    else if (playerChoice == 'S' || playerChoice == 's' )
                     {
-                        Console.Clear();
-                        Console.WriteLine("딜러의 차례");
-                        dealer.isFirstTurn = false;
-                        dealer.DrawCard(deck);
-                        player.ShowHand();
-                        dealer.ShowHand(); 
-                        Console.WriteLine();
-
-                        if(dealer.Hand.GetTotlaValue() >21)
-                        {
-                            isDealerBust = true;
-                        }
-
                         break;
+                    }
+                    else
+                    {
+                        Console.WriteLine(); 
+                        Console.WriteLine("잘못된 입력입니다");
+                        Thread.Sleep(1000); 
+                        continue; 
+
                     }
                 }
 
-                if (!isPlayerBust && isDealerBust)
+                
+                while ((dealer.Hand.GetTotlaValue() < 17 && dealer.Hand.GetTotlaValue() < 21) || dealer.isFirstTurn ==true)
                 {
-                    Console.WriteLine("플레이어 승!");
-                }
-                else if (isPlayerBust && !isDealerBust)
-                {
-                    Console.WriteLine("딜러 승!");
-                }
-                else if (player.Hand.GetTotlaValue() > dealer.Hand.GetTotlaValue())
-                {
-                    Console.WriteLine("플레이어 승!");
-                }
-                else if(player.Hand.GetTotlaValue() < dealer.Hand.GetTotlaValue())
-                {
-                    Console.WriteLine("딜러 승!");
-                }
-                else
-                {
-                    Console.WriteLine("무승부!");
+                    Console.Clear();
+                    Console.WriteLine("딜러의 차례");
+                    dealer.isFirstTurn = false;
+                    dealer.DrawCardFromDeck(deck);
+                    player.ShowHand();
+                    dealer.ShowHand();
+                    Thread.Sleep(1000);
+                    if (dealer.Hand.GetTotlaValue() > 21)
+                    {
+                        isDealerBust = true;
+                        Console.WriteLine("딜러 Bust!!");
+                    }
                 }
 
+                if(isDealerBust) // 게임 종료 로직
+                {
+                    if (isPlayerBust)
+                        Console.WriteLine("무승부!");
+                    else
+                        Console.WriteLine("플레이어 승!"); 
+                }
+                else 
+                {
+                    if(isPlayerBust)
+                        Console.WriteLine("딜러 승!");
+                    else
+                    {
+                        if (player.Hand.GetTotlaValue() > dealer.Hand.GetTotlaValue())
+                            Console.WriteLine("플레이어 승!");
+                        else if (player.Hand.GetTotlaValue() < dealer.Hand.GetTotlaValue())
+                            Console.WriteLine("딜러 승!");
+                        else
+                            Console.WriteLine("무승부!"); 
+                    }
+                }
+                
+                Console.ReadKey();
             }
         }
 
