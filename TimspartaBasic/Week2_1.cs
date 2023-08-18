@@ -30,6 +30,9 @@ namespace TimspartaBasic
 
             //2-2 별찍기
             //1) 오른쪽으로 기울어진 직각삼각형 출력
+            //  0  |  1  |  2  |  3  |  4   <= i
+            //  0  | 0~1 | 0~2 | 0~3 | 0~4  <= j
+
             //for(int i = 0; i<5; i++)
             //{
             //    for(int j = 0; j<=i; j++)
@@ -41,6 +44,9 @@ namespace TimspartaBasic
             //Console.WriteLine();
 
             //2) 역직각삼각형 출력하기 
+            //  5  |  4  |  3  |  2  |  1   <= i
+            //  0  | 0~1 | 0~2 | 0~3 | 0~4  <= j
+
             //for (int i = 5; i > 0; i--)
             //{
             //    for (int j = 0; j < i; j++)
@@ -51,6 +57,10 @@ namespace TimspartaBasic
             //}
 
             //3) 피라미드 출력하기 
+            //  0  |  1  |  2  |  3  |  4   <= i
+            // 0~3 | 0~2 | 0~1 |  0  |  x   <= j " " (4,3,2,1,x개 그림)  
+            //  0  | 0~2 | 0~4 | 0~6 | 0~8  <= k "*" (1,3,5,7,9개 그림) 
+
             //for (int i = 0; i < 5; i++)
             //{
             //    for (int j = 0; j <4-i; j++)
@@ -58,7 +68,7 @@ namespace TimspartaBasic
             //        Console.Write(" ");
             //    }
 
-            //    for (int k = 0; k < 2 * i + 1; k++)
+            //    for (int k = 0; k < 2 * i + 1; k++) // 홀수개 그리기 위해서 
             //    {
             //        Console.Write("*");
             //    }
