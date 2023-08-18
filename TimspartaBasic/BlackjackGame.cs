@@ -147,7 +147,6 @@ namespace TimspartaBasic
             }
         }
 
-        //========================================================================== //내가 작성한 코드
         public class Dealer : Player //딜러를 표현하는 클래스
         {
             public bool isFirstTurn { get; set; } // 딜러가 처음 카드를 받았는지 체크하는 변수
