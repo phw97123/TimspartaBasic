@@ -168,7 +168,7 @@ namespace TimspartaBasic
                     snake.Move(); 
                 }
 
-                if (snake.IsGameOver(width, height)) //게엠 종료
+                if (snake.IsGameOver(width, height)) //게임 종료
                 {
                     Console.Clear();
                     Console.SetCursorPosition(width / 2 - 5, height / 2);

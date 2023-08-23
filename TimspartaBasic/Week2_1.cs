@@ -98,34 +98,34 @@ namespace TimspartaBasic
             //Console.WriteLine($"최대값: {max}");
             //Console.WriteLine($"최소값: {min}");
 
-            //2-4 소수 판별하기 
-            //Console.Write("숫자를 입력하세요: "); 
-            //int num = int.Parse(Console.ReadLine());
+           // 2 - 4 소수 판별하기
+            Console.Write("숫자를 입력하세요: ");
+            int num = int.Parse(Console.ReadLine());
 
-            //if(IsPrime(num))
-            //{
-            //    Console.WriteLine(num + "은 소수입니다."); 
-            //}
-            //else
-            //{
-            //    Console.WriteLine(num + "은 소수가 아닙니다."); 
-            //}
+            if (IsPrime(num))
+            {
+                Console.WriteLine(num + "은 소수입니다.");
+            }
+            else
+            {
+                Console.WriteLine(num + "은 소수가 아닙니다.");
+            }
         }
 
-        //static bool IsPrime(int num) 
-        //{
-        //    if(num<=1) return false; // 1 이하는 소수가 아님 
-        //    if (num % 2 == 0) // 2를 제외한 짝수는 소수가 아님 
-        //    {
-        //        return num == 2? true : false;
-        //    }
-        //    for(int i = 3; i<=Math.Sqrt(num); i+=2) // 홀수는 제곱근까지만 구하면 됨 그 이후의 숫자들은 이전에 나눠서 나온 숫자들이므로 중복되어 필요없음 
-        //    {
-        //        if (num % i == 0)
-        //            return false; 
-        //    }
-        //    return true;
-        //}
+        static bool IsPrime(int num)
+        {
+            if (num <= 1) return false; // 1 이하는 소수가 아님 
+            if (num % 2 == 0) // 2를 제외한 짝수는 소수가 아님 
+            {
+                return num == 2 ? true : false;
+            }
+            for (int i = 3; i <= Math.Sqrt(num); i += 2) // 홀수는 제곱근까지만 구하면 됨 그 이후의 숫자들은 이전에 나눠서 나온 숫자들이므로 중복되어 필요없음 
+            {
+                if (num % i == 0)
+                    return false;
+            }
+            return true;
+        }
 
     }
 }
