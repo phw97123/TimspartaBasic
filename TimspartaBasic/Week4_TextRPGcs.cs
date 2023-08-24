@@ -17,11 +17,13 @@ namespace TimspartaBasic
 {
     internal class Week4_TextRPGcs
     {
+        //문자열 가운데 정렬 한글은 제대로 작동하지는 않는것 같다
         public static void StringCenter(string str)
         {
             Console.WriteLine(String.Format($"{str}").PadLeft(50 - (30 - (str.Length / 2))));// 가운데정렬
         }
 
+        //캐릭터 인터페이스
         public interface ICharacter
         {
             string Name { get; set; }
@@ -34,6 +36,7 @@ namespace TimspartaBasic
             void TakeDamge(int damage);
         }
 
+        //플레이어 클래스
         public class Warrior : ICharacter
         {
 
@@ -61,6 +64,8 @@ namespace TimspartaBasic
             }
 
         }
+
+        //몬스터 클래스
         public class Monster : ICharacter
         {
             Random random = new Random();
@@ -82,10 +87,10 @@ namespace TimspartaBasic
             {
                 Health -= damage;
                 StringCenter($"{Name}은(는) {damage}의 피해를 입었다");
-               
             }
         }
 
+        //아이템 인터페이스
         public interface IItem
         {
             string Name { get; set; }
@@ -93,6 +98,7 @@ namespace TimspartaBasic
             int Amount { get; set; }
 
             //미리 정의된 델리게이트로 값을 반환하지 않는 메서드를 나타내는 델리게이트 
+            //아이템 강화에서 사용
             Action Enforce { get; set; }
 
             void Use(Warrior warrior);
@@ -100,6 +106,7 @@ namespace TimspartaBasic
             void AmountUp(); 
         }
 
+        //체력포션 클래스
         public class HealthPotion : IItem
         {
             public string Name { get; set; } = "체력포션";
@@ -119,6 +126,7 @@ namespace TimspartaBasic
                 Enforce = AmountUp; 
             }
 
+            //아이템 강화 함수
             public void AmountUp()
             {
                 if (Name != "강화체력포션")
@@ -134,6 +142,7 @@ namespace TimspartaBasic
             }
         }
 
+        //공격력 포션 클래스
         public class StrengthPotion : IItem
         {
             public string Name { get; set; } = "공격력포션";
@@ -165,7 +174,8 @@ namespace TimspartaBasic
                 }
             }
         }
-
+        
+        //스테이지 클래스
         public class Stage
         {
             //델리게이트 선언 
@@ -177,6 +187,7 @@ namespace TimspartaBasic
             ICharacter monster;
             List<IItem> rewardsItem;
 
+            //스테이지 레벨을 나타내는 변수
             int level;
 
             public Stage(ICharacter player, ICharacter monster, List<IItem> rewardsItem, int level)
@@ -188,6 +199,7 @@ namespace TimspartaBasic
                 OnCharacterDeath += StageClear; //캐릭터 죽으면 StageClear 실행
             }
 
+            //스테이지 시작 함수
             public void Start()
             {
                 Console.Clear();
@@ -221,7 +233,7 @@ namespace TimspartaBasic
                     Console.WriteLine();
                     StringCenter($"{player.Name}이(가) 죽었습니다.");
                     Thread.Sleep(1000);
-                    //StageClear(monster); 
+                    //StageClear(monster);  이렇게 선언하게 되면 의존을 하게 되서 이 다음에 나올 함수들을 계속 선언을 해야한다 하지만 델리게이트를 사용하면 플레이어가 죽었을 때 실행할 함수들을 추가만 해주면 된다 
                     OnCharacterDeath?.Invoke(monster);
                 }
                 else if (monster.IsDead)
@@ -229,11 +241,12 @@ namespace TimspartaBasic
                     Console.WriteLine();
                     StringCenter($"{monster.Name}이(가) 죽었습니다.");
                     Thread.Sleep(1000);
-                    //StageClear(player); 
+                    //StageClear(player);
                     OnCharacterDeath?.Invoke(player);
                 }
             }
 
+            //스테이지 클리어 함수
             void StageClear(ICharacter character)
             {
                 if (character == player)
@@ -261,6 +274,7 @@ namespace TimspartaBasic
                         Console.WriteLine(); 
                         selectedItem.Use((Warrior)player);
                         Console.WriteLine();
+                        //아이템 강화 함수를 델리게이트를 이용하여 호출
                         selectedItem.Enforce();
                         //물약 강화
                         Thread.Sleep(1000);
@@ -282,6 +296,7 @@ namespace TimspartaBasic
             }
         }
 
+        //게임을 관리하는 클래스
         public class GameManager
         {
             Warrior player;
@@ -291,6 +306,7 @@ namespace TimspartaBasic
 
             List<IItem> stageRewards;
 
+            //스테이지를 리스트로 관리 
             List<Stage> stageMap;
 
             Stage stage1;
@@ -317,6 +333,7 @@ namespace TimspartaBasic
                 stageMap.Add(stage3);
             }
 
+            //게임 시작 함수
             public void StageStart()
             {
                 foreach (var stage in stageMap)
@@ -340,20 +357,10 @@ namespace TimspartaBasic
         {
             Console.SetWindowSize(53, 40);
             Console.CursorVisible = false; 
+
             GameManager Game = new GameManager();
             Game.StageStart();
 
-            //stage1.StageStart();
-
-            //if (player.IsDead) return;
-
-
-
-            //stage2.StageStart();
-
-            //if(player.IsDead) return;
-
-            //Console.WriteLine("게임 끝!");
         }
     }
 }
